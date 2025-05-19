@@ -1,2 +1,24 @@
-# heartDiseasePrediction
-Repository contains all the project files related to Heart Disease Prediction Project.
+Heart & Diabetes Disease Prediction System
+This is a web-based application that predicts the likelihood of heart disease and diabetes using machine learning models. The project is built using FastAPI, Python, HTML, CSS, and JavaScript. It also includes educational content, visual reports, and a chatbot for health tips.
+
+Features
+• Disease Prediction
+Users can enter health-related input data, and the system will predict whether they are likely to have heart disease or diabetes.
+
+• Reports Section
+Provides visual graphs to help users understand their risk and health trends.
+
+• Heart Health Education
+Contains a section with common myths and facts about heart health to raise awareness.
+
+• Chatbot (Ask Me Tips)
+An interactive chatbot that provides general health and lifestyle tips.
+
+• Tech Stack
+Backend: FastAPI, Python, Machine Learning (Scikit-learn),Artificial Intelligence
+
+Frontend: HTML, CSS, JavaScript
+
+Exploratory Data Analysis -Data Visualization: Matplotlib, Seaborn
+
+Author - Sainath Nimbalkar
