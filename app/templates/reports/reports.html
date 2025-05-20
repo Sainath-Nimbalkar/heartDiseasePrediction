@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HridaySutra - Reports</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .report-container {
+      max-width: 1500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .sidebar {
+      height: 100vh;
+      width: 200px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #343a40;
+      padding-top: 20px;
+      transition: transform 0.3s ease;
+    }
+    .sidebar a {
+      padding: 10px 15px;
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      display: block;
+    }
+    .sidebar a:hover {
+      background-color: #495057;
+    }
+    .content {
+      margin-left: 220px;
+      padding: 20px;
+    }
+    .sidebar .active {
+      background-color: #495057;
+      font-weight: bold;
+    }
+    canvas {
+      max-width: 100%;
+      height: 300px !important;
+    }
+
+    /* New Chart Grid Layout */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 2rem;
+      padding-top: 1rem;
+    }
+    .chart-block {
+      background-color: #fdfdfd;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Dark Mode */
+    body.dark-mode {
+      background-color: #1a1a1a;
+      color: #f0f0f0;
+    }
+    .report-container.dark-mode {
+      background: #2c2c2c;
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+    body.dark-mode .sidebar {
+      background-color: #212529;
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      .content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="btn btn-dark d-md-none mb-3" type="button" id="sidebarToggle">Menu</button>
+  <div class="sidebar" id="sidebar">
+    <a href="/">Dashboard</a>
+    <a href="/reports" class="active">Reports</a>
+    <a href="/education">Heart Health Education</a>
+    <a href="/chatbot" class="active">Ask me for tips</a>
+    <a href="/logout">Logout</a>
+  </div>
+
+  <div class="content">
+    <div class="report-container">
+      <h2 class="text-center mb-4">Analysis of Heart</h2>
+      <button id="darkModeToggle" class="btn btn-outline-secondary mb-3">Visual Mode</button>
+
+      <!-- Chart Grid -->
+      <div class="chart-grid">
+        <div class="chart-block">
+          <h5>Age Distribution of visitors</h5>
+          <canvas id="ageChart"></canvas>
+        </div>
+        <div class="chart-block">
+          <h5>Sex Distribution of visitors</h5>
+          <canvas id="sexChart"></canvas>
+        </div>
+        <div class="chart-block">
+          <h5>Age Distribution Among Heart Disease Patients</h5>
+          <canvas id="ageDiseaseChart"></canvas>
+        </div>
+        <div class="chart-block">
+          <h5>Gender-wise Heart Disease Distribution</h5>
+          <canvas id="sexDiseaseChart"></canvas>
+        </div>
+        <div class="chart-block">
+          <h5>Chest Pain Type Distribution</h5>
+          <canvas id="cpChart"></canvas>
+        </div>
+        <div class="chart-block">
+          <h5>Heart Disease Prevalence</h5>
+          <canvas id="targetChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script src="/static/js/reports.js"></script>
+</body>
+</html>

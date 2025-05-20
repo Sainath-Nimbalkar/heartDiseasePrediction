@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HridaySutra - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; padding: 20px; transition: background-color 0.3s, color 0.3s; }
+        .sidebar { height: 100vh; width: 200px; position: fixed; top: 0; left: 0; background-color: #343a40; padding-top: 20px; transition: transform 0.3s ease; }
+        .sidebar a { padding: 10px 15px; text-decoration: none; font-size: 18px; color: white; display: block; }
+        .sidebar a:hover { background-color: #495057; }
+        .content { margin-left: 220px; padding: 20px; }
+        .sidebar .active { background-color: #495057; font-weight: bold; }
+        .card { margin-bottom: 20px; }
+        .prediction-form { display: none; }
+        .prediction-form.active { display: block; }
+        body.dark-mode { background-color: #1a1a1a; color: #f0f0f0; }
+        body.dark-mode .sidebar { background-color: #212529; }
+        body.dark-mode .card { background-color: #2c2c2c; border-color: #444; }
+        body.dark-mode .form-control, body.dark-mode .form-select { background-color: #333; color: #f0f0f0; border-color: #555; }
+        body.dark-mode .form-label { color: #f0f0f0; }
+        body.dark-mode .btn-primary { background-color: #0056b3; border-color: #0056b3; }
+        body.dark-mode .btn-outline-secondary { color: #f0f0f0; border-color: #f0f0f0; }
+
+        /* Custom dropdown styling */
+        .custom-dropdown {
+            font-size: 1.1rem;
+            font-weight: 500;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            background-color: #e9ecef;
+            padding: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-dropdown:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+            background-color: #fff;
+        }
+
+        .custom-dropdown:hover {
+            background-color: #dee2e6;
+        }
+
+        .custom-dropdown option:checked {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        body.dark-mode .custom-dropdown {
+            background-color: #444;
+            border-color: #1e90ff;
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .custom-dropdown:focus {
+            background-color: #555;
+            border-color: #1e90ff;
+            box-shadow: 0 0 8px rgba(30, 144, 255, 0.5);
+        }
+
+        body.dark-mode .custom-dropdown:hover {
+            background-color: #666;
+        }
+
+        body.dark-mode .custom-dropdown option:checked {
+            background-color: #1e90ff;
+            color: #fff;
+        }
+
+        /* Selected model indicator */
+        #selectedModelIndicator .badge {
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            border-radius: 12px;
+        }
+
+        #selectedModelIndicator.heart .badge {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        #selectedModelIndicator.diabetes .badge {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        body.dark-mode #selectedModelIndicator.heart .badge {
+            background-color: #ff4d4d;
+        }
+
+        body.dark-mode #selectedModelIndicator.diabetes .badge {
+            background-color: #2ecc71;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.show { transform: translateX(0); }
+            .content { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <button class="btn btn-dark d-md-none mb-3" type="button" id="sidebarToggle">Menu</button>
+    <div class="sidebar" id="sidebar">
+        <a href="/" class="active">Dashboard</a>
+        <a href="/reports">Reports</a>
+        <a href="/education">Heart Health Education</a>
+        <a href="/chatbot" class="active">Ask me for tips</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="content">
+        <h1 class="mb-4">HridaySutra Dashboard</h1>
+        <button id="darkModeToggle" class="btn btn-outline-secondary mb-3">Visual Mode</button>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Health Prediction</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="predictionType" class="form-label">Select Prediction Type</label>
+                    <select id="predictionType" class="form-select custom-dropdown">
+                        <option value="heart">Heart Disease Prediction</option>
+                        <option value="diabetes">Diabetes Prediction</option>
+                    </select>
+                    <div id="selectedModelIndicator" class="mt-2 d-none">
+                        <span class="badge" id="selectedModelBadge">Selected: Heart Disease Prediction</span>
+                    </div>
+                </div>
+
+                <!-- Heart Disease Prediction Form -->
+                <form id="heartForm" class="prediction-form active">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="Age" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="Age" name="Age" required min="0" max="120">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="Sex" class="form-label">Sex</label>
+                            <select class="form-select" id="Sex" name="Sex" required>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="RestingBP" class="form-label">Resting Blood Pressure (mmHg)</label>
+                            <input type="number" class="form-control" id="RestingBP" name="RestingBP" required min="0" max="200">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="Cholesterol" class="form-label">Cholesterol (mg/dl)</label>
+                            <input type="number" class="form-control" id="Cholesterol" name="Cholesterol" required min="0" max="600">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="FastingBS" class="form-label">Fasting Blood Sugar (> 120 mg/dl)</label>
+                            <select class="form-select" id="FastingBS" name="FastingBS" required>
+                                <option value="0">No (0)</option>
+                                <option value="1">Yes (1)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="MaxHR" class="form-label">Maximum Heart Rate</label>
+                            <input type="number" class="form-control" id="MaxHR" name="MaxHR" required min="60" max="220">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ExerciseAngina" class="form-label">Exercise Induced Angina</label>
+                            <select class="form-select" id="ExerciseAngina" name="ExerciseAngina" required>
+                                <option value="N">No</option>
+                                <option value="Y">Yes</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="Oldpeak" class="form-label">Oldpeak (ST Depression)</label>
+                            <input type="number" class="form-control" id="Oldpeak" name="Oldpeak" required step="0.1" min="-2" max="6">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="ChestPain" class="form-label">Chest Pain Type</label>
+                            <select class="form-select" id="ChestPain" name="ChestPain" required>
+                                <option value="ATA">Atypical Angina (ATA)</option>
+                                <option value="NAP">Non-Anginal Pain (NAP)</option>
+                                <option value="ASY">Asymptomatic (ASY)</option>
+                                <option value="TA">Typical Angina (TA)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="RestingECG" class="form-label">Resting ECG</label>
+                            <select class="form-select" id="RestingECG" name="RestingECG" required>
+                                <option value="Normal">Normal</option>
+                                <option value="ST">ST-T Wave Abnormality</option>
+                                <option value="LVH">Left Ventricular Hypertrophy</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="ST_Slope" class="form-label">ST Slope</label>
+                            <select class="form-select" id="ST_Slope" name="ST_Slope" required>
+                                <option value="Up">Up</option>
+                                <option value="Flat">Flat</option>
+                                <option value="Down">Down</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Predict</button>
+                </form>
+
+                <!-- Diabetes Prediction Form -->
+                <form id="diabetesForm" class="prediction-form">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-select" id="gender" name="gender" required>
+                                <option value="0">Male</option>
+                                <option value="1">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="age" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="age" name="age" required min="0" max="120">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="hypertension" class="form-label">Hypertension</label>
+                            <select class="form-select" id="hypertension" name="hypertension" required>
+                                <option value="0">No (0)</option>
+                                <option value="1">Yes (1)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="heart_disease" class="form-label">Heart Disease</label>
+                            <select class="form-select" id="heart_disease" name="heart_disease" required>
+                                <option value="0">No (0)</option>
+                                <option value="1">Yes (1)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="smoking_history" class="form-label">Smoking History</label>
+                            <select class="form-select" id="smoking_history" name="smoking_history" required>
+                                <option value="0">No Info</option>
+                                <option value="1">Never</option>
+                                <option value="2">Former</option>
+                                <option value="3">Current</option>
+                                <option value="4">Not Current</option>
+                                <option value="5">Ever</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="bmi" class="form-label">BMI</label>
+                            <input type="number" class="form-control" id="bmi" name="bmi" required step="0.01" min="10" max="50">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="HbA1c_level" class="form-label">HbA1c Level (%)</label>
+                            <input type="number" class="form-control" id="HbA1c_level" name="HbA1c_level" required step="0.1" min="3" max="10">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="blood_glucose_level" class="form-label">Blood Glucose Level (mg/dl)</label>
+                            <input type="number" class="form-control" id="blood_glucose_level" name="blood_glucose_level" required min="50" max="300">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Predict</button>
+                </form>
+
+                <div id="predictionResult" class="mt-3" style="display: none;">
+                    <h6>Prediction Result:</h6>
+                    <p id="resultMessage"></p>
+                    <p>Confidence: <span id="resultConfidence"></span>%</p>
+                    <div class="progress mb-2" style="height: 20px;">
+                        <div id="confidenceBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p>Risk Level: <span id="resultRiskLevel"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
