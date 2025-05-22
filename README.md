@@ -6,7 +6,7 @@ Features
 Users can enter health-related input data, and the system will predict whether they are likely to have heart disease or diabetes.
 
 • Reports Section
-Provides visual graphs to help users understand their risk and health trends.
+Provides visual graphs to help users understand their risk and health trends.User can understand the impact of various fields on heart disease.
 
 • Heart Health Education
 Contains a section with common myths and facts about heart health to raise awareness.
