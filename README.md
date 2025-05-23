@@ -4,6 +4,8 @@ This is a web-based application that predicts the likelihood of heart disease an
 Features
 • Disease Prediction
 Users can enter health-related input data, and the system will predict whether they are likely to have heart disease or diabetes.
+• Diabetes Prediction
+Predict whether the user has diabetes or not.
 
 • Reports Section
 Provides visual graphs to help users understand their risk and health trends.User can understand the impact of various fields on heart disease.
