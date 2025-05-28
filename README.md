@@ -16,7 +16,7 @@ Provides visual graphs to help users understand their risk and health trends.Use
 Contains a section with common myths and facts about heart health to raise awareness.
 
 • Chatbot (Ask Me Tips)
-An interactive chatbot that provides general health and lifestyle tips.
+An interactive chatbot that provides general health and lifestyle tips.User can interact with the chatbot related to symptons,medical information.
 
 • Tech Stack
 Backend: FastAPI, Python, Machine Learning (Scikit-learn),Artificial Intelligence
