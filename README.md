@@ -1,4 +1,4 @@
-Heart & Diabetes Disease Prediction System
+HEART AND DIABETES DETECTION SYSTEM
 This is a web-based application that predicts the likelihood of heart disease and diabetes using machine learning models.
 The project is built using FastAPI, Python, HTML, CSS, and JavaScript.
 It also includes educational content, visual reports, and a chatbot for health tips.
