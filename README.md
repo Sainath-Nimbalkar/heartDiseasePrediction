@@ -20,7 +20,6 @@ An interactive chatbot that provides general health and lifestyle tips.User can 
 
 • Tech Stack
 Backend: FastAPI, Python, Machine Learning (Scikit-learn),Artificial Intelligence
-
 Frontend: HTML, CSS, JavaScript
 
 Exploratory Data Analysis -Data Visualization: Matplotlib, Seaborn.
