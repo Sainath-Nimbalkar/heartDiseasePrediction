@@ -23,5 +23,4 @@ Backend: FastAPI, Python, Machine Learning (Scikit-learn),Artificial Intelligenc
 Frontend: HTML, CSS, JavaScript
 
 Exploratory Data Analysis -Data Visualization: Matplotlib, Seaborn.
-
 Author - Sainath Nimbalkar
